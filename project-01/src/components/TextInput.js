@@ -1,7 +1,7 @@
 import './TextInput.css'
 import React from 'react'
 
-export default function TextInput({ id, placeholder, value, onChange, type }) {
+export default function TextInput({ id, placeholder, value, setValue, type }) {
   return (
     <div>
       <input
@@ -10,7 +10,9 @@ export default function TextInput({ id, placeholder, value, onChange, type }) {
         type={type || 'text'}
         placeholder={placeholder}
         value={value}
-        onChange={onChange}
+        onChange={e => {
+          setValue(e.target.value)
+        }}
       />
     </div>
   )
