@@ -51,11 +51,18 @@ export default function App() {
     window.addEventListener("offline", offlineFn)
   })
 
-  const [previousSectionState, setpreviousSectionState] = React.useState(true)
-  const [nextSectionState, setnextSectionState] = React.useState(false)
-  function onClickContinue() {
-    setnextSectionState(true)
-    setpreviousSectionState(false)
+  const [basicInfoSectionState, setBasicSectionState] = React.useState(true)
+  const [addressInfoSectionState, setAddressInfoSectionState] = React.useState(false)
+  const [paymentInfoSectionState, setPaymentInfoSectionState] = React.useState(false)
+  const onClickContinue = (event) => {
+    console.log(event.target.value)
+    if (event.target.value === "basicInfoSection"){
+      setBasicSectionState(false)
+      setAddressInfoSectionState(true)
+    } else if (event.target.value === "addressInfoSection"){
+      setAddressInfoSectionState(false)
+      setPaymentInfoSectionState(true)
+    }
   }
 
   function onClickSaveData() {
@@ -74,7 +81,8 @@ export default function App() {
   return (
     <div className='App'>
       <div className='App-Content'>
-        {previousSectionState && <div>
+
+        {basicInfoSectionState && <div>
           <FormTitle>Checkout</FormTitle>
 
           {/* Put your solution here 👇 */}
@@ -114,12 +122,12 @@ export default function App() {
             values={['None', 'Vegan', 'Vegetarian', 'Halal/Kosher']}
           />
 
-          <button onClick={onClickContinue} disabled={firstName === "" || lastName === "" ? true : false}>
+          <button value="basicInfoSection" onClick={onClickContinue} disabled={firstName === "" || lastName === "" ? true : false}>
             Continue
           </button>
         </div>}
 
-        {nextSectionState && <div>
+        {addressInfoSectionState && <div>
           <FormTitle>
             Checkout
           </FormTitle>
@@ -143,12 +151,12 @@ export default function App() {
             values={['Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland & Labrador', 'Nova Scotia', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan']}
           />
 
-          <button onClick={onClickContinue} disabled={city === "" || province === "Select a Province" ? true : false}>
+          <button value="addressInfoSection" onClick={onClickContinue} disabled={city === "" || province === "Select a Province" ? true : false}>
             Continue
           </button>
         </div>}
 
-        {nextSectionState && <div>
+        {paymentInfoSectionState && <div>
           <FormTitle>Checkout</FormTitle>
 
           <FormFieldHeading>Payment Info</FormFieldHeading>
