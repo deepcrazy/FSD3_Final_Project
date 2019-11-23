@@ -8,6 +8,8 @@ import FormField from './components/FormField'
 import FormFieldHeading from './components/FormFieldHeading'
 import FormLabel from './components/FormLabel'
 import FormTextInput from './components/FormTextInput'
+import RadioField from './components/RadioField'
+import NetworkState from './components/NetworkState'
 // import '../public/js/firebase_basic'
 // import writeDatabase from '../public/js/firebase_database'
 
@@ -19,9 +21,9 @@ export default function App() {
   const [province, setProvince] = React.useState('Select a Province')
 
   const [paymentType, setPaymentType] = React.useState(null)
-  const onChangePaymentType = (event) => {
-    setPaymentType(event.target.value)
-  }
+  // const onChangePaymentType = (event) => {
+  //   setPaymentType(event.target.value)
+  // }
 
   const [agreementAcceptanceStatus, setAgreementAcceptanceStatus] = React.useState(false)
   const [saveDataButtonDisable, setSaveDataButtonDisable] = React.useState(false)
@@ -37,32 +39,23 @@ export default function App() {
       setSaveDataButtonDisable(false)
   }, [agreementAcceptanceStatus, paymentType])
 
+  const [networkState, setNetworkState] = React.useState(true)
+  React.useEffect(() => {
+    const onlineFn = () => {
+      setNetworkState(true)
+    }
+    const offlineFn = () => {
+      setNetworkState(false)
+    }
+    window.addEventListener("online", onlineFn)
+    window.addEventListener("offline", offlineFn)
+  })
+
   const [previousSectionState, setpreviousSectionState] = React.useState(true)
   const [nextSectionState, setnextSectionState] = React.useState(false)
   function onClickContinue() {
     setnextSectionState(true)
     setpreviousSectionState(false)
-  }
-
-  const paymentTypeList = ['Bitcoin', 'Paypal', 'Credit Card']
-  function RadioField({ onChange }) {
-    let radioElement = paymentTypeList.map((item, index) => {
-      return (
-        <div key={index}>
-          <label>
-            <input
-              type="radio"
-              name="paymentType"
-              checked={paymentType === item}
-              onChange={onChange}
-              value={item}>
-            </input>
-            {item}
-          </label>
-        </div>
-      )
-    })
-    return radioElement
   }
 
   function onClickSaveData() {
@@ -164,7 +157,9 @@ export default function App() {
           />
           <div>
             <RadioField
-              onChange={onChangePaymentType}
+              setValue={setPaymentType}
+              paymentType={paymentType}
+            // onChange={onChangePaymentType}
             />
           </div>
 
@@ -173,8 +168,16 @@ export default function App() {
             onChange={onCheckboxButtonClick}
           />
           <label>{"I agree to the Terms & Conditions"}</label>
+
+          {!networkState && <div>
+            <NetworkState
+              networkState={networkState}
+            />
+          </div>}
+
           <div>
-            <button type='submit' onClick={onClickSaveData} disabled={saveDataButtonDisable}>
+
+            <button type='submit' onClick={onClickSaveData} disabled={saveDataButtonDisable || !networkState ? true : false}>
               Save Data
           </button>
           </div>
