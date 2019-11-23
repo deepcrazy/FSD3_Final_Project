@@ -11,7 +11,8 @@ export default function RadioField({ setValue, paymentType }) {
           <input
             type='radio'
             name='paymentType'
-            checked={paymentType === null ? index === 0 : paymentType === item}
+            // checked={paymentType === null ? index === 0 : paymentType === item}
+            checked={paymentType === item}
             // onChange={onChange}
             onChange={e => {
               setValue(e.target.value)

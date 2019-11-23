@@ -19,7 +19,7 @@ export default function App() {
   const [city, setCity] = React.useState('')
   const [province, setProvince] = React.useState('Select a Province')
 
-  const [paymentType, setPaymentType] = React.useState('Bitcoin')
+  const [paymentType, setPaymentType] = React.useState(null)
   // const onChangePaymentType = (event) => {
   //   setPaymentType(event.target.value)
   // }
@@ -34,7 +34,7 @@ export default function App() {
   }
 
   React.useEffect(() => {
-    if (paymentType === "" || !agreementAcceptanceStatus)
+    if (paymentType === null || !agreementAcceptanceStatus)
       setSaveDataButtonDisable(true)
     else
       setSaveDataButtonDisable(false)
