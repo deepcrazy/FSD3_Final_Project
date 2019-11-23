@@ -1,0 +1,18 @@
+.NetworkState {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: #f5cdcd;
+    border: 1px solid;
+    height: 40px;
+    /* width: 50%; */
+    border-color: red;
+    border-radius: 5px
+    
+  }
+
+  .NetworkState_text {
+    margin-top: 10px;
+    text-align: center; 
+    color: red; 
+    font-weight: bold
+  }
