@@ -13,14 +13,14 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 var db = firebase.firestore()
 
-export default addData = (
+export default function addData (
   firstName,
   lastName,
   dietaryRestriction,
   city,
   province,
   paymentType,
-) => {
+) {
   return new Promise((resolve, reject) => {
     db.collection('submissions')
       .add({
