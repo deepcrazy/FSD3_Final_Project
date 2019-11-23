@@ -3,13 +3,12 @@ import React from 'react'
 import FormTitle from './components/FormTitle'
 import TextInput from './components/TextInput'
 import Dropdown from './components/Dropdown'
-import addData from './utils/FirebaseInterface'
-import FormField from './components/FormField'
+import { addData, getData } from './utils/FirebaseInterface'
 import FormFieldHeading from './components/FormFieldHeading'
 import FormLabel from './components/FormLabel'
-import FormTextInput from './components/FormTextInput'
 import RadioField from './components/RadioField'
 import NetworkState from './components/NetworkState'
+import ResultsTable from './components/ResultsTable'
 // import '../public/js/firebase_basic'
 // import writeDatabase from '../public/js/firebase_database'
 
@@ -20,10 +19,12 @@ export default function App() {
   const [city, setCity] = React.useState('')
   const [province, setProvince] = React.useState('Select a Province')
 
-  const [paymentType, setPaymentType] = React.useState(null)
+  const [paymentType, setPaymentType] = React.useState('Bitcoin')
   // const onChangePaymentType = (event) => {
   //   setPaymentType(event.target.value)
   // }
+
+  const [results, setResults] = React.useState([]);
 
   const [agreementAcceptanceStatus, setAgreementAcceptanceStatus] = React.useState(false)
   const [saveDataButtonDisable, setSaveDataButtonDisable] = React.useState(false)
@@ -49,6 +50,10 @@ export default function App() {
     }
     window.addEventListener("online", onlineFn)
     window.addEventListener("offline", offlineFn)
+    return () => {
+      window.removeEventListener("online", onlineFn)
+      window.removeEventListener("offline", offlineFn)
+    }
   })
 
   const [basicInfoSectionState, setBasicSectionState] = React.useState(true)
@@ -56,10 +61,10 @@ export default function App() {
   const [paymentInfoSectionState, setPaymentInfoSectionState] = React.useState(false)
   const onClickContinue = (event) => {
     console.log(event.target.value)
-    if (event.target.value === "basicInfoSection"){
+    if (event.target.value === "basicInfoSection") {
       setBasicSectionState(false)
       setAddressInfoSectionState(true)
-    } else if (event.target.value === "addressInfoSection"){
+    } else if (event.target.value === "addressInfoSection") {
       setAddressInfoSectionState(false)
       setPaymentInfoSectionState(true)
     }
@@ -77,7 +82,12 @@ export default function App() {
 
     console.log(data)
     addData(firstName, lastName, dietaryRestriction, city, province, paymentType)
+      .then(res => getData()
+        .then(res => setResults(res))
+        .catch(e => console.log(e)))
   }
+  console.log(results)
+
   return (
     <div className='App'>
       <div className='App-Content'>
@@ -190,7 +200,12 @@ export default function App() {
           </button>
           </div>
 
+
+          <br />
+
+          {results.length === 0 ? '' : <><FormTitle>Results</FormTitle><ResultsTable results={results} /></>}
         </div>}
+
       </div>
     </div>
   )

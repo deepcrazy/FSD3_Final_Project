@@ -13,7 +13,19 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 var db = firebase.firestore()
 
-export default function addData (
+export function getData() {
+  return new Promise((resolve, reject) => {
+    let results = []
+    db.collection('submissions').get().then(querySnapshot => {
+      querySnapshot.forEach(function (doc) {
+        results.push(doc.data())
+      });
+      resolve(results)
+    })
+  })
+}
+
+export function addData(
   firstName,
   lastName,
   dietaryRestriction,
@@ -31,10 +43,10 @@ export default function addData (
         province,
         paymentType,
       })
-      .then(function(docRef) {
+      .then(function (docRef) {
         resolve('Document written with ID: ', docRef.id)
       })
-      .catch(function(error) {
+      .catch(function (error) {
         reject('Error adding document: ', error)
       })
   })
