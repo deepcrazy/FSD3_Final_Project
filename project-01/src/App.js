@@ -3,6 +3,7 @@ import React from 'react'
 import FormTitle from './components/FormTitle'
 import TextInput from './components/TextInput'
 import Dropdown from './components/Dropdown'
+import addData from './utils/FirebaseInterface'
 // import '../public/js/firebase_basic'
 // import writeDatabase from '../public/js/firebase_database'
 
