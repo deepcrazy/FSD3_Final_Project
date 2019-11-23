@@ -1,19 +1,14 @@
 import React from 'react'
 
-const paymentTypeList = ['Bitcoin', 'Paypal', 'Credit Card']
-export default function RadioField({ setValue, paymentType }) {
+export default function RadioField({ paymentTypeList, setValue, paymentType }) {
   let radioElement = paymentTypeList.map((item, index) => {
-    console.log(index)
-    console.log(paymentType)
     return (
       <div key={index}>
         <label>
           <input
             type='radio'
             name='paymentType'
-            // checked={paymentType === null ? index === 0 : paymentType === item}
             checked={paymentType === item}
-            // onChange={onChange}
             onChange={e => {
               setValue(e.target.value)
             }}
